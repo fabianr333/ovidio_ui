@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { createProduct } from "../slices/products";
+import { retrieveBrands } from "../slices/brands";
+import { withRouter } from '../common/with-router';
 
 class AddProduct extends Component {
   constructor(props) {
@@ -16,9 +18,28 @@ class AddProduct extends Component {
       sku: "",
       name: "",
       price: 0,
-      brand: "",
+      brand: 1,
       submitted: false,
+      brands: [],
     };
+  }
+
+  componentDidMount() {
+    this.props.retrieveBrands()
+    .unwrap()
+    .then( (response) => {
+        const options = response.map((d) => ({
+            value: d.id,
+            label: d.name
+          }));
+
+        this.setState({ 
+            brands: options 
+        });
+    })
+    .catch((e) => {
+        console.log(e);
+    })
   }
 
   onChangeSku(e) {
@@ -58,11 +79,11 @@ class AddProduct extends Component {
             price: data.price,
             brand: brand,
         });
-        console.log(data);
       })
       .catch((e) => {
         console.log(e);
       });
+      this.props.router.navigate('/products');
   }
 
   newProduct() {
@@ -128,15 +149,17 @@ class AddProduct extends Component {
 
             <div className="form-group">
               <label htmlFor="description">Brand</label>
-              <input
-                type="text"
-                className="form-control"
+              <select 
+                className="form-control" 
+                name="brand" 
                 id="brand"
-                required
-                value={this.state.brand}
                 onChange={this.onChangeBrand}
-                name="brand"
-              />
+                required>
+                { this.state.brands &&
+                  this.state.brands.map( (opt) => (
+                    <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
+              </select>
             </div>
 
             <button onClick={this.saveProduct} className="btn btn-success">
@@ -149,4 +172,4 @@ class AddProduct extends Component {
   }
 }
 
-export default connect(null, { createProduct })(AddProduct);
+export default connect(null, { createProduct, retrieveBrands })(withRouter(AddProduct));

@@ -22,10 +22,6 @@ class ProductDataService {
     return http.delete(`/products/${id}/`);
   }
 
-  deleteAll() {
-    return http.delete(`/products`);
-  }
-
 }
 
 export default new ProductDataService();

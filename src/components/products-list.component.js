@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import {
     retrieveProducts,
-    deleteAllProducts,
 } from "../slices/products";
 import { Link } from "react-router-dom";
 
@@ -112,4 +111,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { retrieveProducts, deleteAllProducts })(ProductsList);
+export default connect(mapStateToProps, { retrieveProducts })(ProductsList);
