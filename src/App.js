@@ -6,6 +6,7 @@ import "./App.css";
 import AddProduct from "./components/add-product.component";
 import Product from "./components/product.component";
 import ProductList from "./components/products-list.component";
+import Login from "./components/login.component"
 
 class App extends Component {
   render() {
@@ -27,6 +28,9 @@ class App extends Component {
               </Link>
             </li>
           </div>
+          <Link to={"/login"} className="navbar-brand">
+            Login
+          </Link>
         </nav>
 
         <div className="container mt-3">
@@ -35,6 +39,7 @@ class App extends Component {
             <Route path="/products" element={<ProductList/>} />
             <Route path="/add" element={<AddProduct/>} />
             <Route path="/products/:id" element={<Product/>} />
+            <Route path="/login" element={<Login/>} />
           </Routes>
         </div>
       </Router>
